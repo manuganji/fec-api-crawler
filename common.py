@@ -58,7 +58,7 @@ def get_last_retrieved_page(directory):
 
 def download_for_endpoint(endpoint_name, endpoint_url, api_key=API_KEY):
     print("Fetching data from {0} endpoint".format(endpoint_name))
-    candidates_fetch_data = functools.partial(fetch_data, endpoint_url, api_key)
+    endpoint_fetch_data = functools.partial(fetch_data, endpoint_url, api_key)
     write_to_candidates = functools.partial(write_page_to_disk, endpoint_name)
 
     last_page = get_last_retrieved_page(endpoint_name)
@@ -69,7 +69,7 @@ def download_for_endpoint(endpoint_name, endpoint_url, api_key=API_KEY):
         write_to_page = functools.partial(write_to_candidates, page_indx)
 
         try:
-            json_obj = candidates_fetch_data(page_indx)
+            json_obj = endpoint_fetch_data(page_indx)
         except Exception as e:
             print("Looks like we may have run out of API_LIMIT for this hour. Or we might have reached the end of pagination.")
             print(e)
