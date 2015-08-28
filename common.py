@@ -24,7 +24,7 @@ def fetch_data(endpoint, api_key, page=1):
     )
     return resp.json()
 
-def write_page_to_disk(directory, page, json_object):
+def write_to_disk(directory, page, json_object):
 
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -59,7 +59,7 @@ def get_last_retrieved_page(directory):
 def download_for_endpoint(endpoint_name, endpoint_url, api_key=API_KEY):
     print("Fetching data from {0} endpoint".format(endpoint_name))
     endpoint_fetch_data = functools.partial(fetch_data, endpoint_url, api_key)
-    write_to_endpoint = functools.partial(write_page_to_disk, endpoint_name)
+    write_to_endpoint = functools.partial(write_to_disk, endpoint_name)
 
     last_page = get_last_retrieved_page(endpoint_name)
     max_pages = last_page + 10 # assuming that max_pages will be 10 pages later from now
