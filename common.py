@@ -59,14 +59,14 @@ def get_last_retrieved_page(directory):
 def download_for_endpoint(endpoint_name, endpoint_url, api_key=API_KEY):
     print("Fetching data from {0} endpoint".format(endpoint_name))
     endpoint_fetch_data = functools.partial(fetch_data, endpoint_url, api_key)
-    write_to_candidates = functools.partial(write_page_to_disk, endpoint_name)
+    write_to_endpoint = functools.partial(write_page_to_disk, endpoint_name)
 
     last_page = get_last_retrieved_page(endpoint_name)
     max_pages = last_page + 10 # assuming that max_pages will be 10 pages later from now
     page_indx = last_page + 1
 
     while(page_indx <= max_pages):
-        write_to_page = functools.partial(write_to_candidates, page_indx)
+        write_to_page = functools.partial(write_to_endpoint, page_indx)
 
         try:
             json_obj = endpoint_fetch_data(page_indx)
